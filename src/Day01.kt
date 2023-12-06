@@ -26,38 +26,28 @@ fun main() {
             "nine" to "9"
         )
 
-        val digitSet = hashSetOf("o", "t", "f", "s", "e", "n")
-
         var sum = 0
 
         for (line in input) {
             val digitLine = StringBuilder("")
-            var digitBuilder = StringBuilder("")
 
-            for (char in line) {
+            for ((index, char) in line.withIndex()) {
                 if (char.isDigit()) {
-                    digitLine.append(char)
-                    digitBuilder = StringBuilder("")
+                    digitLine.append(char.toString())
                 } else {
-                    digitBuilder.append(char)
-                    if (digitMap.containsKey(digitBuilder.toString())) {
-                        digitLine.append(digitMap[digitBuilder.toString()])
-                        digitBuilder = StringBuilder()
-                        continue
-                    }
-
-                    var isValid = false
                     for (key in digitMap.keys) {
-                        if (key.startsWith(digitBuilder.toString())) {
-                            isValid = true
-                            break
-                        }
-                    }
-
-                    if (!isValid) {
-                        digitBuilder = StringBuilder("")
-                        if (digitSet.contains(char.toString())) {
-                            digitBuilder.append(char)
+                        if (index + key.length - 1 < line.length && line.substring(
+                                index,
+                                index + key.length
+                            ) == key
+                        ) {
+                            println(
+                                line.substring(
+                                    index,
+                                    index + key.length
+                                )
+                            )
+                            digitLine.append(digitMap[key])
                         }
                     }
                 }
@@ -69,7 +59,7 @@ fun main() {
             }
         }
 
-        return sum;
+        return sum
     }
 
     // test if implementation meets criteria from the description, like:
